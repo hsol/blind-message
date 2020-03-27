@@ -55,7 +55,7 @@
       var el_preview_message = document.querySelector('.js_preview_message');
 
       nickname.innerText = decodeURI(comments.nick);
-      el_preview_message.innerText = decodeURI(original_message).slice(0, 10) + '...';
+      el_preview_message.innerText = decodeURI(original_message).slice(0, 5) + '...';
 
       setLoaded();
     }
