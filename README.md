@@ -1,2 +1,0 @@
-# blind-message
-Toss Hackaton
