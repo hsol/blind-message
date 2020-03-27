@@ -1,0 +1,80 @@
+<html lang="ko" dir="ltr">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <link href="../static/styles/send_phone.css" rel="stylesheet">
+  <script type="text/javascript" src="../static/scripts/base.js"></script>
+
+  <script>
+    var urlParams = getUrlParams();
+    if (urlParams.nick === undefined || urlParams.nick.length === 0 || urlParams.text === undefined || urlParams.text.length === 0) {
+      alert('잘못된 접근입니다.');
+      window.history.back();
+
+      throw Error('잘못된 접근입니다.');
+    }
+  </script>
+</head>
+<body class="loaded">
+<form method="get" action="https://iv8s34mel0.execute-api.ap-northeast-2.amazonaws.com/default/comment_write"
+      class="container js_send_form">
+  <input type="hidden" name="id"/>
+  <header>
+    <h1>받을 사람의<br>휴대폰 번호를 입력하세요.</h1>
+  </header>
+  <article>
+    <section class="form">
+      <label>
+        <h4>받을 사람의 휴대폰 번호</h4>
+        <input type="hidden" name="nick"/>
+        <input type="hidden" name="text"/>
+        <input type="text" name="phone" placeholder="01000000000"/>
+      </label>
+    </section>
+  </article>
+  <footer>
+    <button disabled>보내기</button>
+  </footer>
+</form>
+<script>
+  document.querySelector('[name=nick]').value = urlParams.nick;
+  document.querySelector('[name=text]').value = urlParams.text;
+  document.querySelector('[name=id]').value = urlParams.id;
+
+  document.querySelector('.js_send_form').addEventListener('submit', function (event) {
+    var form = event.currentTarget;
+    var queryStringList = [];
+    form.querySelectorAll('input').forEach(function (input) {
+      queryStringList.push(input.name + '=' + input.value)
+    });
+    event.preventDefault();
+
+    var submitUrl = convertToCorsUrl(form.action + '?' + queryStringList.join('&'));
+    var r = new XMLHttpRequest();
+    r.open('GET', submitUrl, true);
+    r.onreadystatechange = function () {
+      if (r.readyState !== 4 || r.status !== 200) return;
+      var response = JSON.parse(r.responseText);
+
+      if (response.message === 'success') {
+        window.location.href = '../view/' + (urlParams.id !== undefined && urlParams.id !== 'undefined' ? '?id=' + urlParams.id : '');
+      }
+    };
+    r.send();
+  });
+
+  function nextButtonControl() {
+    var button = document.querySelector('footer button');
+    var nick = document.querySelector('[name=nick]');
+    var text = document.querySelector('[name=text]');
+    var phone = document.querySelector('[name=phone]');
+
+    button.disabled = nick.value.length === 0 || text.value.length === 0 || phone.value.length === 0;
+  }
+
+  document.querySelector('[name=phone]').addEventListener('keyup', nextButtonControl);
+</script>
+</body>
+</html>

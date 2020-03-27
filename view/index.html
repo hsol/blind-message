@@ -1,0 +1,152 @@
+<html lang="ko" dir="ltr">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <link href="../static/styles/view.css" rel="stylesheet">
+  <script type="text/javascript" src="../static/scripts/base.js"></script>
+</head>
+<body class="container loaded">
+<header>
+  <h1>발송완료.</h1>
+</header>
+<article>
+  <section class="form">
+    <div class="banner">
+      <span class="js_view_message"></span>
+    </div>
+  </section>
+  <section class="form search">
+    <form class="search-box">
+      <input type="text" name="q" placeholder="전화번호로 검색하기 (숫자만 입력)"/>
+      <button type="submit">🔍</button>
+      <button type="button" style="display: none;">지우기</button>
+    </form>
+    <ul class="js_search_list">
+    </ul>
+  </section>
+</article>
+<footer>
+  <a href="../send">다른 메시지 보내기</a>
+</footer>
+
+<script>
+  var comments = {};
+  var urlParams = getUrlParams();
+  var getCommentIdAPIUrl = convertToCorsUrl('https://ou2lgi5d9l.execute-api.ap-northeast-2.amazonaws.com/default/comment');
+  var r1 = new XMLHttpRequest();
+  if (urlParams.id !== undefined) {
+    r1.open('GET', getCommentIdAPIUrl + '?id=' + urlParams.id, true);
+    r1.onreadystatechange = function () {
+      if (r1.readyState !== 4 || r1.status !== 200) return;
+      var response = JSON.parse(r1.responseText);
+
+      if (response.message === 'success') {
+        comments = response.content.comments[0];
+
+        var original_message = comments.text;
+        var el_view_message = document.querySelector('.js_view_message');
+
+        el_view_message.innerText = '“' + decodeURI(original_message) + '”';
+
+        setLoaded();
+      }
+    };
+    r1.send();
+  } else {
+    document.querySelector('.js_view_message').remove();
+  }
+
+  function createList(primaryText, secondaryText) {
+    var list = document.createElement('li');
+    var primary = document.createElement('div');
+    var secondary = document.createElement('div');
+
+    primary.classList.add('primary');
+    secondary.classList.add('secondary');
+
+    primary.innerText = primaryText;
+    secondary.innerText = secondaryText;
+
+    list.append(primary);
+    list.append(secondary);
+
+    return list;
+  }
+
+  function createEmptyList() {
+    var list = document.createElement('li');
+    var empty = document.createElement('div');
+
+    empty.classList.add('empty');
+    empty.innerText = '검색 결과가 없습니다.';
+
+    list.append(empty);
+    return list;
+  }
+
+  var r2 = new XMLHttpRequest();
+  r2.open('GET', getCommentIdAPIUrl, true);
+  r2.onreadystatechange = function () {
+    if (r2.readyState !== 4 || r2.status !== 200) return;
+    var response = JSON.parse(r2.responseText);
+
+    if (response.message === 'success') {
+      var searchList = document.querySelector('.js_search_list');
+      searchList.innerHTML = '';
+      response.content.comments.forEach(function (comment) {
+        searchList.append(
+          createList(comment.text, '익명 · 받는사람 ' + comment.phone)
+        )
+      });
+
+      if (response.content.comments.length === 0) {
+        searchList.append(createEmptyList())
+      }
+    }
+  };
+  r2.send();
+
+  document.querySelector('.search-box input[name=q]').addEventListener('keydown', function (event) {
+    var canSearch = event.currentTarget.value.length >= 10 || event.currentTarget.value.length === 0;
+    document.querySelector('.search-box button[type=submit]').style = canSearch ? '' : 'display: none;';
+    document.querySelector('.search-box button[type=button]').style = canSearch ? 'display: none;' : '';
+  });
+
+  document.querySelector('.search-box button[type=button]').addEventListener('click', function (event) {
+    document.querySelector('.search-box input[name=q]').value = '';
+
+    document.querySelector('.search-box button[type=submit]').style = '';
+    document.querySelector('.search-box button[type=button]').style = 'display: none;';
+  });
+
+  document.querySelector('.search-box').addEventListener('submit', function (event) {
+    event.preventDefault();
+    var query = document.querySelector('.search-box input[name=q]').value;
+
+    var r3 = new XMLHttpRequest();
+    r3.open('GET', getCommentIdAPIUrl + (query.length !== 0 ? '?phone=' + query : ''), true);
+    r3.onreadystatechange = function () {
+      if (r3.readyState !== 4 || r3.status !== 200) return;
+      var response = JSON.parse(r3.responseText);
+
+      if (response.message === 'success') {
+        var searchList = document.querySelector('.js_search_list');
+        searchList.innerHTML = '';
+        response.content.comments.forEach(function (comment) {
+          searchList.append(
+            createList(comment.text, '익명 · 받는사람 ' + comment.phone)
+          )
+        });
+
+        if (response.content.comments.length === 0) {
+          searchList.append(createEmptyList())
+        }
+      }
+    };
+    r3.send();
+  });
+</script>
+</body>
+</html>

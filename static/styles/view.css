@@ -1,0 +1,199 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  transition-duration: 0.3s;
+}
+
+body:not(.loaded) {
+  opacity: 0;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  background-color: #FFFFFF;
+  margin: 0;
+  padding: 0;
+}
+.container header {
+  padding: 55px 20px 0 20px;
+}
+.container header h1 {
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  margin: 0 4px 24px;
+}
+.container article {
+  padding: 0 20px;
+  flex-grow: 1;
+}
+.container article.banner {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  padding-bottom: 172px;
+}
+.container article > .search .search-box {
+  position: relative;
+  height: 52px;
+}
+.container article > .search .search-box input[type=text] {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: solid 1px rgba(139, 149, 161, 0.3);
+  background-color: #FFFFFF;
+  outline: none;
+  padding: 16px 16px 13px 16px;
+}
+.container article > .search .search-box input[type=text]::placeholder {
+  color: #8b95a1;
+}
+.container article > .search .search-box button {
+  position: absolute;
+  right: 5px;
+  top: calc(50% - 1em);
+}
+.container article > .search .search-box button[type=submit] {
+  font-size: 17px;
+}
+.container article > .search .search-box button[type=button] {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.64;
+  color: #8b95a1;
+  top: calc(50% - 0.8em);
+}
+.container article > .search ul {
+  list-style: none;
+  padding: 0 0 72px 0;
+}
+.container article > .search ul li {
+  padding: 16px 2px;
+}
+.container article > .search ul li div.empty {
+  height: 19px;
+  font-size: 16px;
+  color: #3b3b46;
+  text-align: center;
+}
+.container article > .search ul li div.primary {
+  height: 19px;
+  font-size: 16px;
+  color: #3b3b46;
+  margin-bottom: 5px;
+}
+.container article > .search ul li div.secondary {
+  height: 16px;
+  font-size: 13px;
+  color: #8b95a1;
+}
+.container article > .form {
+  padding: 0 4px;
+}
+.container article > .form .banner {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  padding: 17px 0 40px 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+}
+.container article > .form .banner i.emoji {
+  position: absolute;
+  top: 0;
+  font-style: normal;
+  font-size: 30px;
+  margin-bottom: -44px;
+}
+.container article > .form .banner span {
+  padding: 46px 0;
+}
+.container article > .form h4 {
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #333d4b;
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+.container article > .form label input[type=text], .container article > .form label textarea {
+  margin-bottom: 24px;
+  width: 100%;
+  border-radius: 10px;
+  border: solid 1px rgba(0, 23, 51, 0.02);
+  background-color: #f9fafb;
+  outline: none;
+  color: #333d4b;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.35;
+  padding: 15px 16px;
+}
+.container article > .form label input[type=text]::placeholder, .container article > .form label textarea::placeholder {
+  color: #8b95a1;
+}
+.container article > .form label input[type=text] {
+  height: 52px;
+}
+.container article > .form label textarea {
+  resize: none;
+}
+.container footer {
+  padding: 34px 20px 20px 20px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  box-sizing: border-box;
+  background: #000000;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #FFFFFF 40%);
+}
+.container footer button, .container footer a {
+  width: 100%;
+  height: 56px;
+  border-radius: 10px;
+  background-color: #000000;
+  border: 0;
+  display: inline-flex;
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 17px;
+  outline: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1px 6px;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0;
+  text-shadow: none;
+  -webkit-appearance: button;
+  -webkit-writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+}
+.container footer button[disabled], .container footer a[disabled] {
+  background-color: #cccccc;
+}
+
+/*# sourceMappingURL=view.css.map */

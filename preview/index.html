@@ -1,0 +1,66 @@
+<html lang="ko" dir="ltr">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <link href="../static/styles/preview.css" rel="stylesheet">
+  <script type="text/javascript" src="../static/scripts/base.js"></script>
+
+  <script>
+    var urlParams = getUrlParams();
+
+    if (urlParams.id === undefined || urlParams.id.length === 0) {
+      alert('잘못된 접근입니다.');
+      window.history.back();
+
+      throw Error('잘못된 접근입니다.');
+    }
+  </script>
+</head>
+<body>
+<form class="container" method="get" action="../send/">
+  <input type="hidden" name="id"/>
+  <header>
+    <h1>익명의 누군가가 <br><span class="js_nick"></span>님에게 하고싶은 말:</h1>
+  </header>
+  <article class="banner">
+    <section class="form">
+      <div class="banner">
+        <span class="js_preview_message"></span>
+      </div>
+    </section>
+  </article>
+  <footer>
+    <button>편지 전체 읽기</button>
+  </footer>
+</form>
+
+<script>
+  var comments = {};
+  var getCommentIdAPIUrl = convertToCorsUrl('https://ou2lgi5d9l.execute-api.ap-northeast-2.amazonaws.com/default/comment');
+  document.querySelector('[name=id]').value = urlParams.id;
+
+  var r = new XMLHttpRequest();
+  r.open('GET', getCommentIdAPIUrl + '?id=' + urlParams.id, true);
+  r.onreadystatechange = function () {
+    if (r.readyState !== 4 || r.status !== 200) return;
+    var response = JSON.parse(r.responseText);
+
+    if (response.message === 'success') {
+      comments = response.content.comments[0];
+
+      var original_message = comments.text;
+      var nickname = document.querySelector('.js_nick');
+      var el_preview_message = document.querySelector('.js_preview_message');
+
+      nickname.innerText = decodeURI(comments.nick);
+      el_preview_message.innerText = decodeURI(original_message).slice(0, 10) + '...';
+
+      setLoaded();
+    }
+  };
+  r.send();
+</script>
+</body>
+</html>
