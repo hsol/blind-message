@@ -1,0 +1,22 @@
+{
+  "name": "blind-message",
+  "version": "0.0.1",
+  "description": "Toss Hackaton",
+  "main": "a",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsol/blind-message.git"
+  },
+  "keywords": [
+    "sms"
+  ],
+  "author": "Hansol-Lim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hsol/blind-message/issues"
+  },
+  "homepage": "https://github.com/hsol/blind-message#readme"
+}
