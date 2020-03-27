@@ -92,6 +92,9 @@ body:not(.loaded) {
           right: 5px;
           top: calc(50% - 1em);
 
+          background: none;
+          border: 0;
+
           &[type=submit] {
             font-size: 17px;
           }

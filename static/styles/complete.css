@@ -63,6 +63,8 @@ body:not(.loaded) {
   position: absolute;
   right: 5px;
   top: calc(50% - 1em);
+  background: none;
+  border: 0;
 }
 .container article > .search .search-box button[type=submit] {
   font-size: 17px;
